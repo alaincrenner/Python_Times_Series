@@ -3,10 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Assurez-vous que le fichier "DataSet.xlsx" est dans le même répertoire que votre script Python
-df = pd.read_excel("DataSet.xlsx")
+df = pd.read_csv("EUR_USD - Données Historiques.csv", sep=',', thousands='.', decimal=',')
 
 # Tri de la colonne "date" du plus ancien au plus récent
 df.sort_values(by="Date", inplace=True)
+print(df)
 
 summary = df.describe()
 print(summary)
