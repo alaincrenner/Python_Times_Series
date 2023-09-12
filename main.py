@@ -4,14 +4,36 @@ import matplotlib.pyplot as plt
 #Trier la colonne date
 
 # Récupération des données
-data = pd.read_csv("EUR_USD.csv", sep=",", decimal=".")
-
-# Suppression de la colonne vide
-data.drop("Vol.", axis=1, inplace=True)
+data = pd.read_excel("DataSet.xlsx")
 
 # Vérifier s'il y a des données manquantes dans chaque colonne
 missing_data = data.isnull().sum()
 print(missing_data)
+
+# Tri de la colonne "date" du plus ancien au plus récent
+data.sort_values(by="Date", inplace=True)
+print(data)
+
+summary = data.describe()
+print(summary)
+
+date = data["Date"]
+dernier = data["Dernier"]
+ouvert = data["Ouv."]
+#max = data["Plus Haut"]
+min = data["Plus Bas"]
+variation = data["Variation %"]
+
+plt.figure(figsize=(12, 6))  # Définir la taille du graphique
+plt.plot(date, dernier, marker='o', linestyle='-', color='b')
+plt.xlabel("Date")
+plt.ylabel("Dernier")
+plt.title("Variation de Dernier au fil du temps")
+plt.xticks(rotation=45)  # Rotation des étiquettes de l'axe des x pour une meilleure lisibilité
+plt.grid(True)  # Ajouter une grille
+
+plt.tight_layout()  # Pour s'assurer que les étiquettes ne se chevauchent pas
+plt.show()
 
 # Affichage des informations
 print(data.head())
@@ -30,35 +52,15 @@ print(data.head())
 # Convertir la colonne "Date" en type datetime en spécifiant le format
 data['Date'] = pd.to_datetime(data['Date'], format='%d/%m/%Y')
 
-# Extraire les années et les mois
-data['Année'] = data['Date'].dt.year
-data['Mois'] = data['Date'].dt.month
+# Exemple : Tracé d'un graphique temporel
+plt.figure(figsize=(12, 6))
+plt.plot(data['Date'], data['Dernier'], label='Taux de change USD/EUR')
+plt.xlabel('Date')
+plt.ylabel('Taux de change')
+plt.title('Évolution du taux de change USD/EUR au fil du temps')
+plt.legend()
+plt.show()
 
-# Créer un graphique par année
-years = data['Année'].unique()
-for year in years:
-    year_data = data[data['Année'] == year]
-    plt.figure(figsize=(12, 6))
-    plt.plot(year_data['Date'], year_data['Dernier'], label=f'Taux de change USD/EUR en {year}')
-    plt.xlabel('Date')
-    plt.ylabel('Taux de change')
-    plt.title(f'Évolution du taux de change USD/EUR en {year}')
-    plt.legend()
-    #plt.show()
-
-# Créer un graphique par mois pour une année donnée (par exemple, 2022)
-selected_year = 2022
-year_data = data[data['Année'] == selected_year]
-months = year_data['Mois'].unique()
-for month in months:
-    month_data = year_data[year_data['Mois'] == month]
-    plt.figure(figsize=(12, 6))
-    plt.plot(month_data['Date'], month_data['Dernier'], label=f'Taux de change USD/EUR en {selected_year}-{month:02d}')
-    plt.xlabel('Date')
-    plt.ylabel('Taux de change')
-    plt.title(f'Évolution du taux de change USD/EUR en {selected_year}-{month:02d}')
-    plt.legend()
-    #plt.show()
 
 # Définir la proportion de données à utiliser pour l'ensemble de test
 test_size = 0.2
