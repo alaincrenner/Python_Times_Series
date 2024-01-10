@@ -5,7 +5,7 @@ from arch import arch_model
 from sklearn.model_selection import train_test_split
 
 # Charger les données depuis le fichier Excel
-df = pd.read_excel("DataSet2.xlsx")
+df = pd.read_excel("DataSet3.xlsx")
 df = df[["Date", "Dernier"]]
 
 # Tri de la colonne "date" du plus ancien au plus récent

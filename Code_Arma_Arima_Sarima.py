@@ -8,7 +8,7 @@ from statsmodels.tsa.arima.model import ARIMA
 import numpy as np
 from sklearn.metrics import mean_squared_error
 
-df = pd.read_excel("DataSet2.xlsx")
+df = pd.read_excel("DataSet3.xlsx")
 df = df[["Date", "Dernier"]]
 df.index = pd.to_datetime(df['Date'], format='%Y-%m-%d')
 del df['Date']
@@ -54,7 +54,7 @@ plt.xticks(rotation=45)
 # Plot predictions
 plt.plot(y_pred_out_ARMAmodel, color='orange', label='ARMA predictions')
 plt.plot(y_pred_out_ARIMAmodel, color='yellow', label='ARIMA predictions')
-#plt.plot(y_pred_out_SARIMAXmodel, color='blue', label='SARIMA predictions')
+plt.plot(y_pred_out_SARIMAXmodel, color='blue', label='SARIMA predictions')
 
 # Plot data
 plt.plot(train, color='black', label='Train data')

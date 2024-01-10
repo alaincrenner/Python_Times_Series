@@ -5,7 +5,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 
 # Charger les données depuis le fichier Excel
-df = pd.read_excel("DataSet2.xlsx")
+df = pd.read_excel("DataSet3.xlsx")
 
 # Tri de la colonne "date" du plus ancien au plus récent
 df.sort_values(by="Date", inplace=True)
