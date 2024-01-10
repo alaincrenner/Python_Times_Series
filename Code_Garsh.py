@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from arch import arch_model
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
 
 # Charger les données depuis le fichier Excel
 df = pd.read_excel("DataSet3.xlsx")
@@ -38,8 +39,6 @@ plt.show()
 
 # Affichez les paramètres estimés du modèle GARCH
 print(results.summary())
-
-from sklearn.metrics import mean_squared_error
 
 # Réalisez des prédictions sur les données d'apprentissage
 forecast = results.conditional_volatility
