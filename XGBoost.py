@@ -26,6 +26,7 @@ date_range = pd.date_range(start_date, end_date)
 # Création d'un DataFrame avec les informations requises
 df_future_data = pd.DataFrame({'Date': date_range})
 
+# Fonction de formatage de la date
 def create_time_feature(df):
     df['dayofmonth'] = df['Date'].dt.day
     df['dayofweek'] = df['Date'].dt.dayofweek
@@ -33,7 +34,6 @@ def create_time_feature(df):
     df['month'] = df['Date'].dt.month
     df['year'] = df['Date'].dt.year
     df['dayofyear'] = df['Date'].dt.dayofyear
-    # Use isocalendar() to get the week information
     week_info = df['Date'].dt.isocalendar()
     df['weekofyear'] = week_info.week
     return df
@@ -41,22 +41,23 @@ def create_time_feature(df):
 future_data = create_time_feature(df_future_data)
 future_data = future_data.drop(['Date'], axis=1)
 
+# Séparation de jeux de données entre entrainement et test
 train = create_time_feature(train)
 test = create_time_feature(test)
 
-# Extracting target variable and features for the training set
+# Extraction de la variable cible et des caractéristiques pour l'ensemble d'apprentissage
 y_train = train['Dernier']
 X_train = train.drop(["Dernier", 'Date'], axis=1)
 
-# Extracting target variable and features for the testing set
+# Extraction de la variable cible et des caractéristiques pour l'ensemble de test
 y_test = test['Dernier']
 X_test = test.drop(["Dernier", 'Date'], axis=1)
 
-# Fitting the model
+# Ajustement du modèle
 reg = xgb.XGBRegressor(n_estimators=1000)
 reg.fit(X_train, y_train, verbose=False)
 
-# Predicting on the test set
+# Prédiction sur l'ensemble de test
 test['Dernier_Prediction'] = reg.predict(X_test)
 
 future_prediction = reg.predict(future_data)
